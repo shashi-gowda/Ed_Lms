@@ -324,9 +324,9 @@ class student:
         i = int(input())
         while i not in range(1,4):
             if i == 4:
-                exit()
+                print('Logging Out')
                 break
-        i = int(input("please enter a valid number 1 or 2 or 3"))
+            i = int(input("please enter a valid number 1 or 2 or 3"))
         else:
             if i == 1:
                 self.view_module()
