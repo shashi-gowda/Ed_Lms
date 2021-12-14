@@ -315,18 +315,19 @@ class student:
     def __init__(self):
         self.num = input("please enter the contact number: ")
         if self.num in Students:
-            print("welcome {} to killer's digital university".format(Students[self.num]["full name"]))
+            print(f"welcome {Students[self.num]["full name"]} to Switch_Blade's Academy")
             self.student_menu()
         else:
-            print("sorry, your details are not found\n please ask the manager to add your details")
-    def student_menu(self):
-        print("please choose one of the options\n 1.Today sechudule\n 2.view my modules\n 3.update profile\n 4.logout")
-        i = int(input())
+            print("sorry, your details are not found, please ask the manager to add your details!!")
+    
+    def student_menu():
+        print("please choose from the below options\n 1.View_Today_Sechudule\n 2.View_My_Modules\n 3.Update_Profile\n 4.Logout\n")
+        i = int(input('please choose from available options: '))
         while i not in range(1,4):
             if i == 4:
                 print('Logging Out')
                 break
-            i = int(input("please enter a valid number 1 or 2 or 3"))
+            i = int(input("please enter a valid number to choose from available options of 1,2,3 and 4: "))
         else:
             if i == 1:
                 self.view_module()
@@ -337,6 +338,7 @@ class student:
             if i == 3:
                 self.student_profile()
                 self.student_menu()
+    
     def student_profile(self):
         print("your! complete profile is : ")
         for i in Students[self.num]:
