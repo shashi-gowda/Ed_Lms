@@ -324,19 +324,19 @@ class student:
         i = int(input())
         while i not in range(1,4):
             if i == 4:
-                login()
+                exit()
                 break
-                i = int(input("please enter a valid number 1 or 2 or 3"))
-            else:
-                if i == 1:
-                    self.view_module()
-                    self.student_menu()
-                if i == 2:
-                    self.update_profile()
-                    self.student_menu()
-                if i == 3:
-                    self.student_profile()
-                    self.student_menu()
+        i = int(input("please enter a valid number 1 or 2 or 3"))
+        else:
+            if i == 1:
+                self.view_module()
+                self.student_menu()
+            if i == 2:
+                self.update_profile()
+                self.student_menu()
+            if i == 3:
+                self.student_profile()
+                self.student_menu()
     def student_profile(self):
         print("your! complete profile is : ")
         for i in Students[self.num]:
