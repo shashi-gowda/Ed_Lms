@@ -96,23 +96,23 @@ class manager:
             status = n
             Modules[num]["status"] = status
             
-    def view_module(self):
+    def view_module_details(self):
         check_module = input("please enter module name\n")
         if check_module in Modules:
             print("the details of the module is: ")
             for detail in Modules[check_module]:
                 if type(Modules[check_module][detail]) != dict:
-                    print("{},{}".format(detail,Modules[check][detail]))
+                    print("{},{}".format(detail,Modules[check_module][detail]))
                 else:
                     print(detail + ":")
-                    for j in Modules[check][detail]:
-                        print("{},{}".format(detail,Modules[check][detail][j]))
+                    for j in Modules[check_module][detail]:
+                        print("{},{}".format(detail,Modules[check_module][detail][j]))
         else:
             print("sorry, the module details does not exist\n")
         print("let's go back to the main menu\n\n")
         
     
-    def show_modules(self):
+    def view_all_modules(self):
         module_list = Modules.keys()
         print("choose modules")
         temp = input(module_list)
@@ -130,7 +130,7 @@ class manager:
             print("the module does not exist")
         print("lets go back to main menu")
         
-    ## view_detailed module is not there
+    ## update module not done
     
     def Manage_units(self):
         print("select your options! in units \n 1.create unit \n 2. choose units\n 3.update unit\n 4.delete unit\n 5.exit")
