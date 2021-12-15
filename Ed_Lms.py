@@ -310,6 +310,7 @@ class manager:
         key = input("enter the Unit key")
         if key in Units:
             del Units[key]
+            print('Scuccessfully Unit deleted\n')
         else:
             print("the units does not exist")
         print("lets go back to main menu")
