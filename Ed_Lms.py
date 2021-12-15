@@ -1,10 +1,6 @@
-from datetime import datetime
-from datetime import date
-
 Students = {}
 Modules = {}
-Units = dict([])
-
+Units = {}
 
 class manager:
     global Students
@@ -20,6 +16,8 @@ class manager:
         i = int(input("select your option: "))
         while i not in range(1, 4):
             if i == 4:
+                print('Logging Out')
+                login()
                 break
             else:
                 print("please choose a valid number: ")
@@ -38,7 +36,7 @@ class manager:
     def Manage_modules(self):
         print(
             "choose from options to:\n 1.create module \n 2.list of modules\n 3.show module\n 4.delete module\n 5.show detailed module\n 6.Update Module\n 7.exit")
-        i = int(input("enter the number\n"))
+        i = int(input("enter the number to select your option: "))
         while i not in range(1, 7):
             if i == 7:
                 self.Manager_menu()
@@ -74,7 +72,7 @@ class manager:
             break
         else:
             Modules[num] = {}
-            print(" okay seems like module does't exist! please enter the details to create new module")
+            print("okay seems like module does't exist! please enter the details to create new module")
             Module_name = input("please enter module name to be created: ")
             Modules[num]["module name"] = Module_name
 
@@ -90,20 +88,20 @@ class manager:
             i = ["upcoming", "ongoing", "complete"]
             if date < start_date:
                 n = i[0]
-                print(i[0])
+                print('status: ',n)
 
-            elif date <= end_date and date >= start_date:
+            elif date <= end_date or date >= start_date:
                 n = i[1]
-                print(i[1])
+                print('status: ',n)
 
-            else:
+            elif date>=end_date:
                 n = i[2]
-                print(i[2])
+                print('status: ',n)
             status = n
             Modules[num]["status"] = status
 
     def view_module_details(self):
-        check_module = input("please enter module Key\n")
+        check_module = input("please enter module Key: ")
         if check_module in Modules:
             print("the details of the module you selected is: ")
             for detail in Modules[check_module]:
@@ -134,10 +132,10 @@ class manager:
                         print("{}:{}".format(detail, Modules[module][detail][j]))
 
     def update_module(self):
-        check_module = input("please enter module Key\n")
+        check_module = input("please enter module Key: ")
         if check_module in Modules:
             print("Module found! ")
-            print("Please enter updated content below")
+            print("Please enter the content to be updated below")
             Updated_data = {}
             Module_name = input("please enter module name to be updated: ")
             Updated_data["module name"] = Module_name
@@ -179,55 +177,133 @@ class manager:
             print("the module does not exist")
         print("lets go back to main menu")
 
-    
+
     def Manage_units(self):
         print(
-            "select your options! in units \n 1.create unit \n 2. choose units\n 3.update unit\n 4.delete unit\n 5.exit")
-        i = int(input("enter the number\n"))
-        while (i not in range(1, 5)):
-            if i == 5:
+            "select your options! in units \n 1.create unit \n 2.view_all_units\n 3.view_module_details\n 4.update unit\n 5.delete unit\n 6.exit")
+        i = int(input("enter the number: "))
+        while (i not in range(1, 6)):
+            if i == 6:
                 break
             else:
-                print("enter a valid number, make sure that the number between 1 to 5\n")
+                print("enter a valid number, make sure that the number from 1 to 5\n")
                 i = int(input("enter the number: "))
         else:
             if i == 1:
                 self.create_unit()
                 self.Manage_units()
             if i == 2:
-                self.choose_unit()
-                self.Manage_units()
-            if i == 3:
                 self.view_all_units()
                 self.Manage_units()
+            if i == 3:
+                self.view_unit_details()
+                self.Manage_units()
             if i == 4:
+                self.update_units()
+                self.Manage_units()
+            if i == 5:
                 self.delete_unit()
                 self.Manage_units()
 
     def create_unit(self):
-        unit_list = list(Modules.keys())
+        module_list = list(Modules.keys())
+        print("modules list --> ", module_list)
         print("Okay, lets create a new unit")
-        num = input("please enter unit key that does not exist!\n")
+        num = input("please enter unit key that's not already used: ")
         while num in Units:
-            print("it seems the unit already exist\n")
+            print("it seems the unit already exist, use unique num\n")
             break
         else:
             Units[num] = {}
-            print(" okay seems like the module does not exist! please enter the details")
-            unit_name = input("please enter module name!:\n")
+            print("okay seems like the module does not exist! please enter the details")
+            unit_name = input("please enter unit name!: ")
             Units[num]["unit name"] = unit_name
-            unit_type = input("the the type of unit\n")
+            unit_type = input("The type of unit?: ")
             Units[num]["type"] = unit_type
 
             Units[num]["id"] = num
-            start_date = input("enter the starting date of module\n ")
+            start_date = input("enter the starting date of module: ")
             Units[num]["startdate"] = start_date
-            end_date = input("enter the closing date: \n")
+            end_date = input("enter the closing date: ")
+            Units[num]["enddate"] = end_date
+            module_id = input("enter the module id that this unit will be apart of: ")
+            Units[num]["module_id"] = module_id
+            date = input("please enter today's date: ")
+            Units[num]["date"] = date
+            i = ["upcoming", "ongoing", "complete"]
+            if date < start_date:
+                n = i[0]
+                print(i[0])
 
-    def view_all_units():
-        print("the list of units")
+            elif date <= end_date and date >= start_date:
+                n = i[1]
+                print(i[1])
+
+            else:
+                n = i[2]
+                print(i[2])
+            status = n
+            Units[num]["status"] = status
+
+    def view_all_units(self):
+        print("the list of all units")
         for i in Units:
-            print(i)
+            print("Unit ID =", Units[i]['id'],
+                  ", Unit Name =", Units[i]['unit name'],
+                  ", Unit Type =", Units[i]["type"],
+                  ", Module Name =", Modules[Units[i]['module_id']]["module name"])
+
+    def view_unit_details(self):
+        unit_id = input("please enter unit id to view details")
+        print("Unit ID =", Units[unit_id]['id'],
+              ", Unit Name =", Units[unit_id]['unit name'],
+              ", Unit Start Date =", Units[unit_id]['startdate'],
+              ", Unit End Date =", Units[unit_id]['enddate'],
+              ", Module Name =", Modules[Units[unit_id]['module_id']]["module name"],
+              ", Unit Status =", Units[unit_id]["status"],
+              )
+
+    def update_units(self):
+        check_unit = input("please enter unit Key: ")
+        if check_unit in Units:
+            print("Unit found! ")
+            print("Please enter updated content below")
+            Updated_data = {}
+            unit_name = input("please enter unit name to be updated: ")
+            Updated_data["unit name"] = unit_name
+            unit_type = input("please enter unit to be updated: ")
+            Updated_data["type"] = unit_type
+            unit_id = check_unit
+            Updated_data["id"] = unit_id
+            start_date = input("Enter the starting date of unit:  ")
+            Updated_data["startdate"] = start_date
+            end_date = input("Enter the Ending date: ")
+            Updated_data["enddate"] = end_date
+            module_id = input("Enter the Module ID: ")
+            Updated_data["module_id"] = module_id
+            date = input("please enter today's date: ")
+            Updated_data["date"] = date
+            i = ["upcoming", "ongoing", "complete"]
+            if date < start_date:
+                n = i[0]
+                print(i[0])
+
+            elif date <= end_date and date >= start_date:
+                n = i[1]
+                print(i[1])
+
+            else:
+                n = i[2]
+                print(i[2])
+            status = n
+            Updated_data["status"] = status
+            dictkey = {check_unit:Updated_data}
+            Units.update(dictkey)
+            print("update successful")
+        else:
+            print("sorry, the unit details does not exist\n")
+        print("let's go back to the main menu\n\n")
+
 
     def choose_unit(self):
         unitlist = (Units.keys())
@@ -240,9 +316,13 @@ class manager:
             return tempn
 
     def delete_unit(self):
+        module_list = list(Modules.keys())
         key = input("enter the Unit key")
         if key in Units:
             del Units[key]
+            print('unit has been successfully removed')
+        if key in module_list:
+            module_list.remove(key)
         else:
             print("the units does not exist")
         print("lets go back to main menu")
@@ -250,7 +330,7 @@ class manager:
     def Manage_students(self):
         print(
             "select your options,mange_students menu! \n 1.create student\n 2.view students\n 3.update student\n 4.delete student\n 5.v_students\n 6.exit")
-        i = int(input("enter the number\n"))
+        i = int(input("enter the number: "))
         while (i not in range(1, 6)):
             if i == 6:
                 break
@@ -276,33 +356,33 @@ class manager:
 
     def create_student(self):
         print("Okay, lets create a new student")
-        num = input("please enter contact number if student does not exist!\n")
+        num = input("please enter contact number if student does not exist!: ")
         while num in Students:
             print("it seems the student already exist\n")
             break
         else:
             Students[num] = {}
-            print(" okay seems like the student does not exist! please enter the details")
-            full_name = input("please enter full name of student!:\n")
+            print("okay seems like the student does not exist! please enter the details")
+            full_name = input("please enter full name of student!: ")
             Students[num]["full name"] = full_name
-            age = input("please enter the age\n")
+            age = input("please enter the age: ")
             while (age.isdigit() == False):
-                age = input("enter age in numbers only")
+                age = input("enter age in numbers only: ")
             Students[num]["Age"] = age
-            gender = input("enter your gender")
+            gender = input("enter your gender: ")
             while (gender not in ["male", "MALE", "m", "M", "Female", "FEMALE", "F", "f", "others", "o", "O"]):
-                gender = input("please enter your gender m,f,o\n")
+                gender = input("please enter your gender m,f,o: ")
             Students[num]["Gender"] = gender
 
             Students[num]["contactnumber"] = num
 
-            email = input("enter your email address!\n")
+            email = input("enter your email address!: ")
             Students[num]["email"] = email
-            module = input("enter the course, what he/she want!")
+            module = input("enter the course, what he/she want: ")
             Students[num]["module"] = module
 
     def view_student(self):
-        check = input("please enter contact number of the student\n")
+        check = input("please enter contact number of the student: ")
         if check in Students:
             print("the details of the student is: ")
             for detail in Students[check]:
@@ -323,17 +403,17 @@ class manager:
             print(" Student found")
             print("Please enter updated content below")
             Updated_data = {}
-            full_name = input("please enter updated full name of student!:\n")
+            full_name = input("please enter updated full name of student!: ")
             Updated_data["full name"] = full_name
-            age = input("please enter the age\n")
+            age = input("please enter the age: ")
             while (age.isdigit() == False):
                 age = input("enter age in numbers only")
             Updated_data["Age"] = age
             gender = input("enter your gender")
             while (gender not in ["male", "MALE", "m", "M", "Female", "FEMALE", "F", "f", "others", "o", "O"]):
-                gender = input("please enter your gender m,f,o\n")
+                gender = input("please enter your gender m,f,o: ")
             Updated_data["Gender"] = gender
-            email = input("enter your email address!\n")
+            email = input("enter your email address!: ")
             Updated_data["email"] = email
             module = input("enter the course, what he/she want!")
             Updated_data["module"] = module
@@ -345,7 +425,7 @@ class manager:
         print("let's go back to the main menu\n\n")
 
     def delete_student(self):
-        num = input("enter the contact number")
+        num = input("enter the contact number: ")
         if num in Students:
             del Students[num]
         else:
@@ -361,106 +441,111 @@ class student:
     def __init__(self):
         self.num = input("please enter the contact number: ")
         if self.num in Students:
-            print("welcome {} to killer's digital university".format(Students[self.num]["full name"]))
+            print(f"welcome ",{Students[self.num]["full name"]}," to Switch_Blade's Academy")
             self.student_menu()
         else:
-            print("sorry, your details are not found\n please ask the manager to add your details")
+            print("sorry, your details are not found, please ask the manager to add your details!!")
+            login()
 
     def student_menu(self):
-        print("please choose one of the options\n 1.Today sechudule\n 2.view my modules\n 3.update profile\n 4.logout")
-        i = int(input())
+        print(
+            "please choose from the below options\n 1.View_Todays_Sechudule\n 2.View_My_Modules\n 3.Update_Profile\n 4.Logout\n")
+        i = int(input('please choose from available options: '))
         while i not in range(1, 4):
             if i == 4:
                 print('Logging Out')
+                login()
                 break
-            i = int(input("please enter a valid number 1 or 2 or 3"))
+            i = int(input("please enter a valid number to choose from available options of 1,2,3 and 4: "))
         else:
             if i == 1:
-                self.view_module()
+                self.view_todays_schedule()
                 self.student_menu()
             if i == 2:
-                self.update_profile()
+                self.view_my_modules()
                 self.student_menu()
             if i == 3:
-                self.student_profile()
+                self.update_profile()
                 self.student_menu()
 
-    num=input('please enter your contact number: ') 
     def view_todays_schedule(self):
-        for i in Students:
-        if num==i:
-            module_name=Students[num]['module']
-            for i in Units:
-                if module_name==Units[i]['module_id']:
-                    print(Units[i]['unit name'])
-                    print(Units[i]['type'])
-                    print(Units[i]['module_id'])
+        num=input('please enter your contact number: ')
+        for i in Modules:
+            if Modules[i]['status']=='ongoing':
+                for i in Students:
+                    if num==i:
+                        module_name=Students[num]['module']
+                        for i in Units:
+                            if module_name==Units[i]['module_id']:
+                                print(Units[i]['unit name'])
+                                print(Units[i]['type'])
+                                print(Units[i]['module_id'])
 
     def update_profile(self):
-        check = input("please enter the contact number of student: ")
-        if check in Students:
-            print("here are the details")
-            label = 1
-            for i in Students[check]:
-                print("{},{}".format(label, i))
-                label += 1
-            val = input("please enter the name of details you want to update")
-            while (val not in Students[check]):
-                print("this details not present for this student\n\n")
+        contact_num=input('Enter Your Contact Number: ')
+        i=int(input('Please choose from the following to update your details\n 1.full name\n 2.Age\n 3.Gender\n 4.contactnumber\n 5.email\n 6.exit: '))
+        while i not in range(1,6):
+            if i==6:
                 break
             else:
-                print("select change name or change email")
-                n = int(input("1.change name \n 2.change email\n"))
-                while (n not in range(1, 3)):
-                    n = int(input("please enter number either 1 or 2"))
-                else:
-                    if n == 1:
-                        name = input("enter the name do you want! ")
-                        Students[check]["full name"] = full_name
-                        print("you sucessfully changed name")
-                    elif n == 2:
-                        email = input("enter e mail")
-                        Students[check]["email"] = email
-                        print("you sucessfully change email ")
-        print("Lets go back to main menu!\n\n")
-
-    def view_my_modules(self):
-        check = input("please enter module name\n")
-        if check in Modules:
-            print("the details of the module is: ")
-            for detail in Modules[check]:
-                if type(Modules[check][detail]) != dict:
-                    print("{},{}".format(detail, Modules[check][detail]))
-                else:
-                    print(detail + ":")
-                    for j in Modules[check][detail]:
-                        print("{},{}".format(detail, Modules[check][detail][j]))
+                print('please enter a valid number from 1 to 5')
+                i=int(input('please enter valid number: '))
         else:
-            print("sorry, the module details does not exist\n")
-        print("let's go back to the main menu\n\n")
+            for num in Students:
+                if num==contact_num:
+                    if i==1:
+                        name=input('enter to update your full name: ')
+                        Student[num]['full name']=name
+                    elif i==2:
+                        age=int(input('enter to update your age: '))
+                        Students[num]['Age']=age
+                    elif i==3:
+                        gender=input('enter to update your gender: ')
+                        Students[num]['Gender']=gender
+                    elif i==4:
+                        contact_num=input('enter to updated your contact number: ')
+                        Students[num]['contactnumber']=contact_num
+                    elif i==5:
+                        email=input('enter to update your updated_email: ')
+                        Student[num]['email']=email
+            
+            print('updated details are: ',Students)
 
+    
+    def view_my_modules(self):
+        num=input('enter your contact number: ')
+        for i in Students:
+            if Students[i]['contactnumber']==num:
+                print(Students[i]['module'])
+            else:
+                print("sorry, you are not enrolled to any module!")
+        
 
+        
 def login():
     print("welcome to Switch_Blade's Academy".center(100, "*"))
-    i = int(input("please choose one of the following to login\n 1.manager\n 2.student\n"))
-    while True:
-        while i not in range(1, 3):
+    i = int(input("please choose one of the following to login\n 1.manager\n 2.student\n 3.Logout: "))
+    while i not in range(1, 3):
+        if i==3:
+            exit()
+        else:
             print('please enter valid number to login\n')
             i = int(input())
-        else:
-            if i == 1:
-                print('please enter your username and password')
+    else:
+        if i == 1:
+            print('please enter your username and password')
+            username = input()
+            password = input()
+            print('welcome manager')
+            while username != 'admin' or password != 'admin':
+                print('please enter valid username and password')
                 username = input()
                 password = input()
-                while username != 'admin' or password != 'admin':
-                    print('please enter valid username and password')
-                    username = input()
-                    password = input()
-                else:
-                    print('welcome manager')
-                obj = manager()
+            
+            obj = manager()
 
-            else:
-                i == 2
-                obj1 = student()
+        elif i== 2:
+            obj1 = student()
+
+
 login()
