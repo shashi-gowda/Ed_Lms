@@ -492,24 +492,17 @@ class student:
                 i=int(input('please enter valid number: '))
         else:
             for num in Students:
-                if num==contact_num:
+                if Students[num]==contact_num:
                     if i==1:
-                        name=input('enter to update your full name: ')
-                        Student[num]['full name']=name
+                        Student[num]['full name']=input('update your name: ')
                     elif i==2:
-                        age=int(input('enter to update your age: '))
-                        Students[num]['Age']=age
+                        Students[num]['Age']=int(input('update your age: '))
                     elif i==3:
-                        gender=input('enter to update your gender: ')
-                        Students[num]['Gender']=gender
+                        Students[num]['Gender']=input('update your gender: ')
                     elif i==4:
-                        contact_num=input('enter to updated your contact number: ')
-                        Students[num]['contactnumber']=contact_num
+                        Students[num]['contactnumber']=input('update your contact_no: ')
                     elif i==5:
-                        email=input('enter to update your updated_email: ')
-                        Student[num]['email']=email
-            
-            print('updated details are: ',Students)
+                        Student[num]['email']=input('update your email: ')
 
     
     def view_my_modules(self):
